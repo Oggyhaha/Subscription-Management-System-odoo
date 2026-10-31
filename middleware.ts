@@ -67,59 +67,130 @@ function getDashboardForRole(role: "ADMIN" | "STAFF" | "CUSTOMER"): string {
   }
 }
 
+/**
+ * Verifies cross-origin safety for mutating HTTP methods (POST, PUT, DELETE, PATCH)
+ */
+function isAllowedMutationOrigin(request: NextRequest): boolean {
+  const method = request.method.toUpperCase();
+  if (!["POST", "PUT", "DELETE", "PATCH"].includes(method)) {
+    return true;
+  }
+
+  // Exempt cron endpoints (authenticated via Bearer CRON_SECRET)
+  if (request.nextUrl.pathname.startsWith("/api/cron/")) {
+    return true;
+  }
+
+  const origin = request.headers.get("origin");
+  const referer = request.headers.get("referer");
+  const host = request.headers.get("host");
+
+  const allowed = new Set<string>();
+  if (host) {
+    allowed.add(`http://${host}`);
+    allowed.add(`https://${host}`);
+  }
+  if (process.env.APP_URL) {
+    try {
+      allowed.add(new URL(process.env.APP_URL).origin);
+    } catch {
+      // ignore
+    }
+  }
+  allowed.add("http://localhost:3000");
+
+  if (origin && !allowed.has(origin)) {
+    return false;
+  }
+
+  if (referer) {
+    try {
+      const refOrigin = new URL(referer).origin;
+      if (!allowed.has(refOrigin)) {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // 1. CSRF / Origin Check for Mutations
+  if (!isAllowedMutationOrigin(request)) {
+    return new NextResponse(
+      JSON.stringify({ error: "Forbidden: Cross-origin request rejected" }),
+      {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value;
   const secret = process.env.AUTH_SECRET || "fallback-secret-for-middleware-validation";
 
   const session = sessionCookie ? await verifyTokenEdge(sessionCookie, secret) : null;
 
-  // 1. Auth routes redirect if already signed in
+  let response: NextResponse | null = null;
+
+  // 2. Auth routes redirect if already signed in
   if (pathname === "/login" || pathname === "/register") {
     if (session) {
-      return NextResponse.redirect(new URL(getDashboardForRole(session.role), request.url));
+      response = NextResponse.redirect(new URL(getDashboardForRole(session.role), request.url));
+    } else {
+      response = NextResponse.next();
     }
-    return NextResponse.next();
   }
-
-  // 2. Admin routes (/admin/*)
-  if (pathname.startsWith("/admin")) {
+  // 3. Admin routes (/admin/*)
+  else if (pathname.startsWith("/admin")) {
     if (!session) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-    if (session.role !== "ADMIN") {
+      response = NextResponse.redirect(loginUrl);
+    } else if (session.role !== "ADMIN") {
       // Forbidden: redirect to user's assigned dashboard
-      return NextResponse.redirect(new URL(getDashboardForRole(session.role), request.url));
+      response = NextResponse.redirect(new URL(getDashboardForRole(session.role), request.url));
+    } else {
+      response = NextResponse.next();
     }
-    return NextResponse.next();
   }
-
-  // 3. Staff routes (/staff/*)
-  if (pathname.startsWith("/staff")) {
+  // 4. Staff routes (/staff/*)
+  else if (pathname.startsWith("/staff")) {
     if (!session) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(loginUrl);
+      response = NextResponse.redirect(loginUrl);
+    } else if (session.role !== "STAFF" && session.role !== "ADMIN") {
+      response = NextResponse.redirect(new URL(getDashboardForRole(session.role), request.url));
+    } else {
+      response = NextResponse.next();
     }
-    if (session.role !== "STAFF" && session.role !== "ADMIN") {
-      return NextResponse.redirect(new URL(getDashboardForRole(session.role), request.url));
-    }
-    return NextResponse.next();
   }
-
-  // 4. Customer routes (/customer/*)
-  if (pathname.startsWith("/customer")) {
+  // 5. Customer routes (/customer/*)
+  else if (pathname.startsWith("/customer")) {
     if (!session) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(loginUrl);
+      response = NextResponse.redirect(loginUrl);
+    } else {
+      response = NextResponse.next();
     }
-    return NextResponse.next();
+  } else {
+    response = NextResponse.next();
   }
 
-  return NextResponse.next();
+  // 6. Inject Security Headers on every response
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+
+  return response;
 }
 
 export const config = {
@@ -129,6 +200,6 @@ export const config = {
     "/customer/:path*",
     "/login",
     "/register",
+    "/api/:path*",
   ],
 };
-
