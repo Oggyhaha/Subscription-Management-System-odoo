@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: ["class", '[data-mode="dark"]'],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -22,9 +22,21 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        paper: {
+          DEFAULT: "hsl(var(--paper))",
+          2: "hsl(var(--paper-2))",
+          3: "hsl(var(--paper-3))",
+        },
+        ink: {
+          DEFAULT: "hsl(var(--ink))",
+          muted: "hsl(var(--ink-muted))",
+          faint: "hsl(var(--ink-faint))",
+        },
+        rule: "hsl(var(--rule))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          hover: "hsl(var(--primary-hover))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -50,11 +62,37 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        status: {
+          draft: "hsl(var(--status-draft))",
+          draftFg: "hsl(var(--status-draft-fg))",
+          quotation: "hsl(var(--status-quotation))",
+          quotationFg: "hsl(var(--status-quotation-fg))",
+          confirmed: "hsl(var(--status-confirmed))",
+          confirmedFg: "hsl(var(--status-confirmed-fg))",
+          active: "hsl(var(--status-active))",
+          activeFg: "hsl(var(--status-active-fg))",
+          paused: "hsl(var(--status-paused))",
+          pausedFg: "hsl(var(--status-paused-fg))",
+          closed: "hsl(var(--status-closed))",
+          closedFg: "hsl(var(--status-closed-fg))",
+          paid: "hsl(var(--status-paid))",
+          paidFg: "hsl(var(--status-paid-fg))",
+          overdue: "hsl(var(--status-overdue))",
+          overdueFg: "hsl(var(--status-overdue-fg))",
+          cancelled: "hsl(var(--status-cancelled))",
+          cancelledFg: "hsl(var(--status-cancelled-fg))",
+          expired: "hsl(var(--status-expired))",
+          expiredFg: "hsl(var(--status-expired-fg))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "SFMono-Regular", "Menlo", "monospace"],
       },
       keyframes: {
         "accordion-down": {

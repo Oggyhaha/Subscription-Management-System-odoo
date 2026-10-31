@@ -48,3 +48,4 @@ yarn-error.log*
 # Test and Coverage
 coverage/
 .vitest/
+node_modules

@@ -1,71 +1,262 @@
+/* hallmark: v2.0.0 · theme: modern-minimal / cobalt-slate · signature: ledger · modes: light+dark */
+/* critique: High-precision financial billing theme with restrained cobalt accents and calm elevation planes */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 220 90% 48%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 210 20% 94%;
-    --secondary-foreground: 224 71.4% 4.1%;
-    --muted: 210 20% 92%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 20% 94%;
-    --accent-foreground: 224 71.4% 4.1%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 220 90% 48%;
+    color-scheme: light dark;
+
+    /* Base Surfaces (Paper) */
+    --paper: 210 20% 98.5%;
+    --paper-2: 0 0% 100%;
+    --paper-3: 214 25% 96%;
+
+    /* Typography / Ink */
+    --ink: 222 47% 11%;
+    --ink-muted: 215 16% 40%;
+    --ink-faint: 215 14% 62%;
+
+    /* Dividers and Hairlines */
+    --rule: 214 20% 89%;
+
+    /* Brand / Accent - Calm Cobalt / Indigo */
+    --primary: 224 76% 44%;
+    --primary-hover: 224 76% 38%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 214 24% 93%;
+    --secondary-foreground: 222 47% 14%;
+
+    --muted: 214 20% 94%;
+    --muted-foreground: 215 16% 44%;
+
+    --accent: 214 28% 92%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 48%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 20% 88%;
+    --input: 214 20% 86%;
+    --ring: 224 76% 48%;
+
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: var(--paper-2);
+    --card-foreground: var(--ink);
+    --popover: var(--paper-2);
+    --popover-foreground: var(--ink);
+
     --radius: 0.5rem;
+
+    /* Status Colors (Semantic) */
+    --status-draft: 215 16% 91%;
+    --status-draft-fg: 215 25% 27%;
+
+    --status-quotation: 200 80% 92%;
+    --status-quotation-fg: 201 90% 27%;
+
+    --status-confirmed: 224 85% 93%;
+    --status-confirmed-fg: 224 82% 35%;
+
+    --status-active: 145 60% 91%;
+    --status-active-fg: 145 76% 22%;
+
+    --status-paused: 38 92% 91%;
+    --status-paused-fg: 36 86% 25%;
+
+    --status-closed: 215 14% 88%;
+    --status-closed-fg: 215 18% 30%;
+
+    --status-paid: 152 64% 90%;
+    --status-paid-fg: 152 78% 22%;
+
+    --status-overdue: 0 84% 92%;
+    --status-overdue-fg: 0 74% 34%;
+
+    --status-cancelled: 0 10% 89%;
+    --status-cancelled-fg: 0 10% 32%;
+
+    --status-expired: 25 20% 90%;
+    --status-expired-fg: 25 30% 28%;
   }
 
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+  [data-mode="dark"] {
+    /* Hallmark dark stance: L 12-18% anchor-tinted, never #000, cards lighter than canvas */
+    --paper: 222 30% 9%;
+    --paper-2: 222 25% 13%;
+    --paper-3: 222 22% 17%;
+
+    --ink: 210 25% 94%;
+    --ink-muted: 215 18% 66%;
+    --ink-faint: 215 14% 48%;
+
+    --rule: 222 20% 21%;
+
+    --primary: 224 74% 56%;
+    --primary-hover: 224 74% 62%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 222 22% 18%;
+    --secondary-foreground: 210 25% 94%;
+
+    --muted: 222 22% 16%;
+    --muted-foreground: 215 18% 65%;
+
+    --accent: 222 24% 20%;
+    --accent-foreground: 210 25% 94%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 20% 22%;
+    --input: 222 20% 22%;
+    --ring: 224 74% 56%;
+
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: var(--paper-2);
+    --card-foreground: var(--ink);
+    --popover: var(--paper-2);
+    --popover-foreground: var(--ink);
+
+    /* Dark Mode Status Colors */
+    --status-draft: 215 20% 19%;
+    --status-draft-fg: 215 20% 78%;
+
+    --status-quotation: 200 45% 19%;
+    --status-quotation-fg: 200 80% 75%;
+
+    --status-confirmed: 224 45% 21%;
+    --status-confirmed-fg: 224 80% 78%;
+
+    --status-active: 145 42% 18%;
+    --status-active-fg: 145 68% 75%;
+
+    --status-paused: 38 48% 18%;
+    --status-paused-fg: 38 85% 72%;
+
+    --status-closed: 215 18% 19%;
+    --status-closed-fg: 215 18% 72%;
+
+    --status-paid: 152 44% 18%;
+    --status-paid-fg: 152 70% 75%;
+
+    --status-overdue: 0 50% 20%;
+    --status-overdue-fg: 0 80% 78%;
+
+    --status-cancelled: 0 12% 19%;
+    --status-cancelled-fg: 0 12% 70%;
+
+    --status-expired: 25 22% 19%;
+    --status-expired-fg: 25 35% 72%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-mode]) {
+      --paper: 222 30% 9%;
+      --paper-2: 222 25% 13%;
+      --paper-3: 222 22% 17%;
+
+      --ink: 210 25% 94%;
+      --ink-muted: 215 18% 66%;
+      --ink-faint: 215 14% 48%;
+
+      --rule: 222 20% 21%;
+
+      --primary: 224 74% 56%;
+      --primary-hover: 224 74% 62%;
+      --primary-foreground: 222 47% 11%;
+
+      --secondary: 222 22% 18%;
+      --secondary-foreground: 210 25% 94%;
+
+      --muted: 222 22% 16%;
+      --muted-foreground: 215 18% 65%;
+
+      --accent: 222 24% 20%;
+      --accent-foreground: 210 25% 94%;
+
+      --destructive: 0 70% 50%;
+      --destructive-foreground: 210 40% 98%;
+
+      --border: 222 20% 22%;
+      --input: 222 20% 22%;
+      --ring: 224 74% 56%;
+
+      --background: var(--paper);
+      --foreground: var(--ink);
+      --card: var(--paper-2);
+      --card-foreground: var(--ink);
+      --popover: var(--paper-2);
+      --popover-foreground: var(--ink);
+
+      --status-draft: 215 20% 19%;
+      --status-draft-fg: 215 20% 78%;
+
+      --status-quotation: 200 45% 19%;
+      --status-quotation-fg: 200 80% 75%;
+
+      --status-confirmed: 224 45% 21%;
+      --status-confirmed-fg: 224 80% 78%;
+
+      --status-active: 145 42% 18%;
+      --status-active-fg: 145 68% 75%;
+
+      --status-paused: 38 48% 18%;
+      --status-paused-fg: 38 85% 72%;
+
+      --status-closed: 215 18% 19%;
+      --status-closed-fg: 215 18% 72%;
+
+      --status-paid: 152 44% 18%;
+      --status-paid-fg: 152 70% 75%;
+
+      --status-overdue: 0 50% 20%;
+      --status-overdue-fg: 0 80% 78%;
+
+      --status-cancelled: 0 12% 19%;
+      --status-cancelled-fg: 0 12% 70%;
+
+      --status-expired: 25 22% 19%;
+      --status-expired-fg: 25 35% 72%;
+    }
   }
 
   html,
   body {
-    overflow-x: clip;
-    min-height: 100vh;
-  }
-
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
+    overflow-x: clip; /* Hallmark Floor Rule 4 */
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-size: 16px;
+    line-height: 1.5;
   }
 
+  /* Optical adjustment for dark mode typography */
+  [data-mode="dark"] body {
+    font-weight: 380;
+  }
+
+  /* Interactive Elements: Focus Visible Rule (Hallmark Floor Rule 6) */
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
+  }
+
+  /* Animation Accessibility (Hallmark Floor Rule 7) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
