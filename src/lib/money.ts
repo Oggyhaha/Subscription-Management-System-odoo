@@ -113,3 +113,4 @@ export function formatMoney(value: MoneyInput, currency = "USD"): string {
     maximumFractionDigits: MONEY_DECIMAL_PLACES,
   }).format(num);
 }
+
