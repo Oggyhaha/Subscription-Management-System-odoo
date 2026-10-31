@@ -15,7 +15,7 @@ interface RateLimitRecord {
  * across ephemeral lambdas, Redis (e.g. Upstash Redis) or a DB-backed atomic counter table should be used.
  * For this application and single-region deployments, this provides immediate brute-force defense.
  */
-class RateLimiter {
+export class RateLimiter {
   private store = new Map<string, RateLimitRecord>();
 
   /**
@@ -90,4 +90,3 @@ export function checkLoginRateLimit(identifier: string) {
 export function checkPasswordResetRateLimit(email: string) {
   return rateLimiter.check(`forgot-pw:${email}`, 3, 15 * 60);
 }
-
