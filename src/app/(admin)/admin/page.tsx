@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { KpiCard } from "@/components/shared/KpiCard";
 import { formatMoney } from "@/lib/money";
@@ -33,7 +34,11 @@ interface PageProps {
 }
 
 export default async function AdminDashboardPage({ searchParams }: PageProps) {
-  await requireRole(["ADMIN"]);
+  try {
+    await requireRole(["ADMIN"]);
+  } catch {
+    redirect("/login?callbackUrl=/admin");
+  }
   const { period = "all" } = await searchParams;
 
   const now = new Date();

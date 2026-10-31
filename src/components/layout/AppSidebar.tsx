@@ -90,7 +90,7 @@ export const STAFF_NAV_GROUPS: NavGroup[] = [
       { title: "Subscriptions", href: "/staff/subscriptions", icon: Repeat },
       { title: "Invoices", href: "/staff/invoices", icon: Receipt },
       { title: "Payments", href: "/staff/payments", icon: CreditCard },
-      { title: "Overdue invoices", href: "/staff/overdue", icon: AlertTriangle },
+      { title: "Outstanding & overdue", href: "/staff/outstanding", icon: AlertTriangle },
     ],
   },
 ];

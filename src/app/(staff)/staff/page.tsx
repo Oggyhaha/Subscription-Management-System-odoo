@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { KpiCard } from "@/components/shared/KpiCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -16,7 +17,11 @@ import {
 } from "lucide-react";
 
 export default async function StaffDashboardPage() {
-  await requireRole(["STAFF", "ADMIN"]);
+  try {
+    await requireRole(["STAFF", "ADMIN"]);
+  } catch {
+    redirect("/login?callbackUrl=/staff");
+  }
 
   const ops = await reportingService.getStaffOperationsMetrics();
 

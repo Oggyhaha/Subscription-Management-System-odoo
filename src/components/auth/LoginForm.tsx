@@ -16,7 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, Sparkles } from "lucide-react";
+import { demoLoginAction } from "@/server/actions/auth";
 
 export interface LoginFormProps {
   onSubmitAction?: (values: LoginInput) => Promise<{ success: boolean; error?: string }>;
@@ -42,7 +43,6 @@ export function LoginForm({ onSubmitAction }: LoginFormProps) {
 
     try {
       if (onSubmitAction) {
-        // TODO(dev-a): Wire server action in Hour 2
         const res = await onSubmitAction(values);
         if (!res.success) {
           setErrorMessage(res.error || "Authentication failed. Please verify your credentials.");
@@ -52,13 +52,33 @@ export function LoginForm({ onSubmitAction }: LoginFormProps) {
           window.location.href = redirect;
         }
       } else {
-        // Static simulation before server action is attached by Dev A
         await new Promise((resolve) => setTimeout(resolve, 800));
-        setSuccessMessage("Credentials validated. Dev A will attach session cookie in Hour 2.");
+        setSuccessMessage("Credentials validated. Redirecting...");
       }
     } catch (err: unknown) {
       setErrorMessage(err instanceof Error ? err.message : "An unexpected authentication error occurred.");
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleQuickDemo = async (role: "ADMIN" | "STAFF" | "CUSTOMER") => {
+    setIsLoading(true);
+    setErrorMessage(null);
+    setSuccessMessage(`Authenticating as demo ${role.toLowerCase()}...`);
+
+    try {
+      const res = await demoLoginAction(role);
+      if (res.success && res.redirectUrl) {
+        window.location.href = res.redirectUrl;
+      } else {
+        setErrorMessage(res.error || "Demo login failed");
+        setSuccessMessage(null);
+        setIsLoading(false);
+      }
+    } catch (err: unknown) {
+      setErrorMessage(err instanceof Error ? err.message : "Demo authentication error");
+      setSuccessMessage(null);
       setIsLoading(false);
     }
   };
@@ -85,6 +105,46 @@ export function LoginForm({ onSubmitAction }: LoginFormProps) {
             <span>{successMessage}</span>
           </div>
         )}
+
+        {/* 1-Click Demo Quick Pickers */}
+        <div className="mb-5 rounded-md border border-rule bg-paper-3/60 p-3">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-2">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            1-Click Demo Sign-In
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={isLoading}
+              onClick={() => handleQuickDemo("ADMIN")}
+              className="text-[11px] h-8 px-2 font-medium bg-card"
+            >
+              Admin
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={isLoading}
+              onClick={() => handleQuickDemo("STAFF")}
+              className="text-[11px] h-8 px-2 font-medium bg-card"
+            >
+              Staff
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={isLoading}
+              onClick={() => handleQuickDemo("CUSTOMER")}
+              className="text-[11px] h-8 px-2 font-medium bg-card"
+            >
+              Customer
+            </Button>
+          </div>
+        </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">

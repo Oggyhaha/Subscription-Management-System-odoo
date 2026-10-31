@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { formatMoney } from "@/lib/money";
 import { reportingService } from "@/server/services/reporting";
@@ -8,7 +9,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export default async function ReportsPage() {
-  await requireRole(["ADMIN"]);
+  try {
+    await requireRole(["ADMIN"]);
+  } catch {
+    redirect("/login?callbackUrl=/admin/reports");
+  }
 
   const metrics = await reportingService.getDashboardMetrics();
 

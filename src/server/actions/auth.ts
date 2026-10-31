@@ -141,6 +141,20 @@ export async function loginAction(input: LoginInput): Promise<ActionResult> {
  * 3. Logout Server Action
  * Clears session cookie and redirects to sign-in.
  */
+/**
+ * 2b. 1-Click Demo Login Action
+ * Allows instant authenticated access to Admin, Staff, or Customer demo workspaces.
+ */
+export async function demoLoginAction(role: "ADMIN" | "STAFF" | "CUSTOMER"): Promise<ActionResult> {
+  const credentials = {
+    ADMIN: { email: "admin@brightloop.com", password: "Admin@Brightloop2026!" },
+    STAFF: { email: "sarah.chen@brightloop.com", password: "Staff@Brightloop2026!" },
+    CUSTOMER: { email: "alex@acmecorp.com", password: "Customer@Brightloop2026!" },
+  };
+
+  return loginAction(credentials[role]);
+}
+
 export async function logoutAction(): Promise<ActionResult> {
   try {
     const session = await getSession();

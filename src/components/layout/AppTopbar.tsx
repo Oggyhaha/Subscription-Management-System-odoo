@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { Menu, LogOut, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -24,10 +25,58 @@ export interface AppTopbarProps {
 
 export function AppTopbar({
   role,
-  userName = "Demo User",
-  userEmail = "user@brightloop.local",
+  userName = "User",
+  userEmail = "",
 }: AppTopbarProps) {
+  const router = useRouter();
   const [sheetOpen, setSheetOpen] = React.useState(false);
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+
+  // Active user details
+  const [user, setUser] = React.useState({
+    name: userName,
+    email: userEmail,
+  });
+
+  // Client-side session sync if defaults were initially passed
+  React.useEffect(() => {
+    if (userName && userName !== "User" && userName !== "Demo User") {
+      setUser({ name: userName, email: userEmail });
+      return;
+    }
+
+    fetch("/api/auth/session")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.authenticated && data?.user) {
+          setUser({
+            name: data.user.name || "User",
+            email: data.user.email || "",
+          });
+        }
+      })
+      .catch(() => {});
+  }, [userName, userEmail]);
+
+  // Robust client-side sign out handler
+  const handleLogout = async (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (isLoggingOut) return;
+
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch {
+      // Fallback regardless of network
+    } finally {
+      window.location.href = "/login";
+    }
+  };
+
+  const initial = user.name.charAt(0).toUpperCase() || "U";
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-rule bg-card/80 px-4 backdrop-blur-md sm:px-6">
@@ -68,18 +117,18 @@ export function AppTopbar({
               className="relative h-8 gap-2 rounded-full pl-2 pr-3 text-xs"
             >
               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-paper-3 text-foreground font-semibold text-[10px]">
-                {userName.charAt(0).toUpperCase()}
+                {initial}
               </div>
-              <span className="hidden md:inline-block font-medium text-foreground">
-                {userName}
+              <span className="hidden md:inline-block font-medium text-foreground max-w-[140px] truncate">
+                {user.name}
               </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-xs font-semibold leading-none text-foreground">{userName}</p>
-                <p className="text-[11px] leading-none text-muted-foreground">{userEmail}</p>
+                <p className="text-xs font-semibold leading-none text-foreground truncate">{user.name}</p>
+                <p className="text-[11px] leading-none text-muted-foreground truncate">{user.email || "Signed in"}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -90,17 +139,13 @@ export function AppTopbar({
               </a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              {/* Dev A can wire this form/action in Hour 2 */}
-              <form action="/api/auth/logout" method="POST" className="w-full">
-                <button
-                  type="submit"
-                  className="flex w-full items-center text-xs text-destructive"
-                >
-                  <LogOut className="mr-2 h-3.5 w-3.5" />
-                  Sign out
-                </button>
-              </form>
+            <DropdownMenuItem
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="cursor-pointer text-xs text-destructive focus:text-destructive focus:bg-destructive/10"
+            >
+              <LogOut className="mr-2 h-3.5 w-3.5" />
+              {isLoggingOut ? "Signing out..." : "Sign out"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -108,4 +153,3 @@ export function AppTopbar({
     </header>
   );
 }
-

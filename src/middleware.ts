@@ -82,8 +82,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 2. Admin routes (/admin/*)
-  if (pathname.startsWith("/admin")) {
+  // 2. Admin routes (/admin and /admin/*)
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     if (!session) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
@@ -96,8 +96,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 3. Staff routes (/staff/*)
-  if (pathname.startsWith("/staff")) {
+  // 3. Staff routes (/staff and /staff/*)
+  if (pathname === "/staff" || pathname.startsWith("/staff/")) {
     if (!session) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
@@ -109,8 +109,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 4. Customer routes (/customer/*)
-  if (pathname.startsWith("/customer")) {
+  // 4. Customer routes (/customer and /customer/*)
+  if (pathname === "/customer" || pathname.startsWith("/customer/")) {
     if (!session) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
@@ -124,11 +124,13 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/admin",
     "/admin/:path*",
+    "/staff",
     "/staff/:path*",
+    "/customer",
     "/customer/:path*",
     "/login",
     "/register",
   ],
 };
-

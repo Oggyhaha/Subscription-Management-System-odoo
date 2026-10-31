@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Repeat, Receipt, Users } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { buttonVariants } from "@/components/ui/button";
+import { DemoPortalBoxes } from "@/components/auth/DemoPortalBoxes";
 import { cn } from "@/lib/utils";
 
 export default function HomePage() {
@@ -21,12 +22,14 @@ export default function HomePage() {
           <ThemeToggle />
           <Link
             href="/login"
+            prefetch={true}
             className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
           >
             Sign in
           </Link>
           <Link
             href="/register"
+            prefetch={true}
             className={cn(buttonVariants({ variant: "default", size: "sm" }))}
           >
             Get started
@@ -35,7 +38,7 @@ export default function HomePage() {
       </header>
 
       {/* Main Hallmark Hero */}
-      <main className="flex-1 flex flex-col justify-center max-w-5xl mx-auto px-6 py-16 w-full">
+      <main className="flex-1 flex flex-col justify-center max-w-5xl mx-auto px-6 py-12 w-full">
         <div className="max-w-2xl space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-rule bg-paper-3 px-3 py-1 text-xs text-muted-foreground font-medium">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -50,6 +53,7 @@ export default function HomePage() {
           <div className="pt-2 flex flex-wrap gap-3">
             <Link
               href="/login"
+              prefetch={true}
               className={cn(buttonVariants({ size: "lg" }), "gap-2")}
             >
               Enter platform
@@ -57,6 +61,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/register"
+              prefetch={true}
               className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
             >
               Customer register
@@ -64,46 +69,27 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Quick Portal Access */}
-        <div className="mt-16 grid gap-4 sm:grid-cols-3 border-t border-rule pt-8">
-          <Link
-            href="/admin"
-            className="group rounded-lg border border-rule bg-card p-5 transition-colors hover:border-primary/40 hover:bg-paper-3/50"
-          >
-            <div className="flex items-center gap-3 mb-2 text-foreground font-semibold text-sm">
-              <ShieldCheck className="h-4 w-4 text-primary" />
-              Administrator portal
+        {/* 1-Click Interactive Demo Portals */}
+        <div className="mt-12 border-t border-rule pt-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+                <Sparkles className="h-4 w-4 text-primary" />
+                1-Click Demo Environments
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                Instantly launch pre-seeded workspaces with full privileges and realistic data.
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Complete plan configuration, taxes, discounts, staff accounts, audit logs, and revenue metrics.
-            </p>
-          </Link>
+            <Link
+              href="/login"
+              className="text-xs text-primary hover:underline font-medium"
+            >
+              Manual sign in &rarr;
+            </Link>
+          </div>
 
-          <Link
-            href="/staff"
-            className="group rounded-lg border border-rule bg-card p-5 transition-colors hover:border-primary/40 hover:bg-paper-3/50"
-          >
-            <div className="flex items-center gap-3 mb-2 text-foreground font-semibold text-sm">
-              <Users className="h-4 w-4 text-primary" />
-              Staff operations
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Daily customer management, quotations, subscription lifecycle actions, and invoice preparation.
-            </p>
-          </Link>
-
-          <Link
-            href="/customer"
-            className="group rounded-lg border border-rule bg-card p-5 transition-colors hover:border-primary/40 hover:bg-paper-3/50"
-          >
-            <div className="flex items-center gap-3 mb-2 text-foreground font-semibold text-sm">
-              <Receipt className="h-4 w-4 text-primary" />
-              Customer self-service
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Direct access to active subscriptions, renewal dates, invoices, and payment receipts.
-            </p>
-          </Link>
+          <DemoPortalBoxes />
         </div>
       </main>
 
@@ -113,4 +99,3 @@ export default function HomePage() {
     </div>
   );
 }
-
