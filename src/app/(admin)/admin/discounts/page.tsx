@@ -264,7 +264,7 @@ export default function DiscountsPage() {
                       <div>{discount.name}</div>
                       {discount.minPurchaseAmount && (
                         <span className="text-xs text-ink-muted">
-                          Min. ${Number(discount.minPurchaseAmount).toFixed(2)}
+                          Min. ₹${Number(discount.minPurchaseAmount).toFixed(2)}
                         </span>
                       )}
                     </td>
@@ -272,7 +272,7 @@ export default function DiscountsPage() {
                       {discount.type === "PERCENTAGE" ? (
                         <span>{discount.value}% Off</span>
                       ) : (
-                        <span>${Number(discount.value).toFixed(2)} Off</span>
+                        <span>₹${Number(discount.value).toFixed(2)} Off</span>
                       )}
                     </td>
                     <td className="py-3.5 px-4 text-xs text-ink-muted">

@@ -35,7 +35,7 @@ export async function recordPaymentAction(input: RecordPaymentInput): Promise<Ac
       success: true,
       message: result.isFullyPaid
         ? `Payment recorded successfully. Invoice #${result.invoice.invoiceNumber} is now fully paid.`
-        : `Partial payment of $${Number(validated.amount).toFixed(2)} recorded successfully. Balance remaining: $${Number(result.invoice.amountDue).toFixed(2)}.`,
+        : `Partial payment of ₹${Number(validated.amount).toFixed(2)} recorded successfully. Balance remaining: ₹${Number(result.invoice.amountDue).toFixed(2)}.`,
       data: {
         paymentId: result.payment.id,
         paymentNumber: result.payment.paymentNumber,

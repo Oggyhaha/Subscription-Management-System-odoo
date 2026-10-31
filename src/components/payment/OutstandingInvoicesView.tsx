@@ -121,25 +121,25 @@ export function OutstandingInvoicesView({ basePath }: OutstandingInvoicesViewPro
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           title="Total Outstanding"
-          value={`$${(metrics?.totalOutstanding || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${(metrics?.totalOutstanding || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={DollarSign}
           subtitle={`${metrics?.totalInvoicesCount || 0} unpaid or partial invoices`}
         />
         <KpiCard
           title="Total Past Due"
-          value={`$${(metrics?.totalOverdue || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${(metrics?.totalOverdue || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={AlertTriangle}
           subtitle={`${metrics?.overdueInvoicesCount || 0} overdue invoices`}
         />
         <KpiCard
           title="Critical Overdue (60+ Days)"
-          value={`$${((metrics?.days61To90.totalAmount || 0) + (metrics?.days90Plus.totalAmount || 0)).toFixed(2)}`}
+          value={`₹${((metrics?.days61To90.totalAmount || 0) + (metrics?.days90Plus.totalAmount || 0)).toFixed(2)}`}
           icon={Clock}
           subtitle="Aged past 60 days"
         />
         <KpiCard
           title="Current / Not Yet Due"
-          value={`$${(metrics?.current.totalAmount || 0).toFixed(2)}`}
+          value={`₹${(metrics?.current.totalAmount || 0).toFixed(2)}`}
           icon={Receipt}
           subtitle={`${metrics?.current.count || 0} invoices within terms`}
         />

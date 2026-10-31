@@ -82,19 +82,19 @@ export default function CustomerInvoicesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <KpiCard
           title="Total Billed"
-          value={`$${totalInvoiced.toFixed(2)}`}
+          value={`₹${totalInvoiced.toFixed(2)}`}
           icon={Receipt}
           subtitle="Cumulative billing charges"
         />
         <KpiCard
           title="Total Paid"
-          value={`$${totalPaid.toFixed(2)}`}
+          value={`₹${totalPaid.toFixed(2)}`}
           icon={CheckCircle2}
           subtitle="Settled payments"
         />
         <KpiCard
           title="Remaining Balance Due"
-          value={`$${totalBalanceDue.toFixed(2)}`}
+          value={`₹${totalBalanceDue.toFixed(2)}`}
           icon={AlertCircle}
           subtitle={totalBalanceDue > 0 ? "Awaiting payment" : "All accounts clear"}
         />
@@ -169,13 +169,13 @@ export default function CustomerInvoicesPage() {
                       {new Date(inv.dueDate).toLocaleDateString()}
                     </td>
                     <td className="py-3.5 px-4 font-mono text-xs text-ink">
-                      ${Number(inv.totalAmount).toFixed(2)}
+                      ₹${Number(inv.totalAmount).toFixed(2)}
                     </td>
                     <td className="py-3.5 px-4 font-mono text-xs text-emerald-600 dark:text-emerald-400">
-                      ${Number(inv.amountPaid).toFixed(2)}
+                      ₹${Number(inv.amountPaid).toFixed(2)}
                     </td>
                     <td className="py-3.5 px-4 font-mono font-bold text-sm text-ink">
-                      ${Number(inv.amountDue).toFixed(2)}
+                      ₹${Number(inv.amountDue).toFixed(2)}
                     </td>
                     <td className="py-3.5 px-4">
                       <StatusBadge status={inv.status} />

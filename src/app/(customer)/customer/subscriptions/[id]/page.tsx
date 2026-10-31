@@ -203,10 +203,10 @@ export default function CustomerSubscriptionDetailPage() {
                   </td>
                   <td className="py-3 px-4 text-center font-mono text-ink-muted">{it.quantity}</td>
                   <td className="py-3 px-4 text-right font-mono text-ink-muted">
-                    ${Number(it.unitPrice).toFixed(2)}
+                    ₹${Number(it.unitPrice).toFixed(2)}
                   </td>
                   <td className="py-3 px-4 text-right font-mono font-bold text-ink">
-                    ${Number(it.lineTotal).toFixed(2)}
+                    ₹${Number(it.lineTotal).toFixed(2)}
                   </td>
                 </tr>
               ))}
@@ -218,21 +218,21 @@ export default function CustomerSubscriptionDetailPage() {
           <div className="w-64 space-y-1.5">
             <div className="flex justify-between text-ink-muted">
               <span>Subtotal:</span>
-              <span className="font-mono text-ink">${Number(subscription.subtotal).toFixed(2)}</span>
+              <span className="font-mono text-ink">₹${Number(subscription.subtotal).toFixed(2)}</span>
             </div>
             {subscription.discountTotal > 0 && (
               <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
                 <span>Discounts:</span>
-                <span className="font-mono">-${Number(subscription.discountTotal).toFixed(2)}</span>
+                <span className="font-mono">-₹${Number(subscription.discountTotal).toFixed(2)}</span>
               </div>
             )}
             <div className="flex justify-between text-ink-muted">
               <span>Tax Total:</span>
-              <span className="font-mono text-ink">${Number(subscription.taxTotal).toFixed(2)}</span>
+              <span className="font-mono text-ink">₹${Number(subscription.taxTotal).toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm font-bold pt-2 border-t border-border text-ink">
               <span>Total per Cycle:</span>
-              <span className="font-mono">${Number(subscription.totalAmount).toFixed(2)}</span>
+              <span className="font-mono">₹${Number(subscription.totalAmount).toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -274,7 +274,7 @@ export default function CustomerSubscriptionDetailPage() {
                 <div className="flex items-center gap-4">
                   <StatusBadge status={inv.status} />
                   <span className="font-mono font-bold text-sm text-ink">
-                    ${Number(inv.totalAmount).toFixed(2)}
+                    ₹${Number(inv.totalAmount).toFixed(2)}
                   </span>
                   <Link href={`/customer/invoices/${inv.id}`}>
                     <Button variant="outline" size="sm" className="text-xs h-8">

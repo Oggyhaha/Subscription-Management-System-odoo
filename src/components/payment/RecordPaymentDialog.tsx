@@ -119,7 +119,7 @@ export function RecordPaymentDialog({
           <div>
             <span className="text-xs text-ink-muted block">Remaining Balance Due:</span>
             <span className="text-lg font-bold font-mono text-ink">
-              ${Number(invoice.amountDue).toFixed(2)}
+              ₹${Number(invoice.amountDue).toFixed(2)}
             </span>
           </div>
           <Button

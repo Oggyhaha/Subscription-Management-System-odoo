@@ -4,7 +4,7 @@ export const systemSettingsSchema = z.object({
   businessName: z.string().trim().min(2, "Business name must be at least 2 characters"),
   supportEmail: z.string().trim().email("Please enter a valid support email"),
   currency: z.string().trim().min(1, "Currency code is required").max(5).default("USD"),
-  currencySymbol: z.string().trim().min(1).max(5).default("$"),
+  currencySymbol: z.string().trim().min(1).max(5).default("₹"),
   invoiceDueDaysDefault: z.coerce
     .number()
     .int("Due days must be an integer")

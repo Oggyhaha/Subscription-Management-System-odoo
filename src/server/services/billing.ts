@@ -156,7 +156,7 @@ export class BillingService {
           status: "CREATED",
           invoiceId: invoice.id,
           invoiceNumber: invoice.invoiceNumber,
-          amount: `$${Number(invoice.totalAmount).toFixed(2)}`,
+          amount: `₹${Number(invoice.totalAmount).toFixed(2)}`,
         });
       } catch (err: unknown) {
         failedCount++;
@@ -376,7 +376,7 @@ export class BillingService {
         sub.subscriptionNumber,
         sub.plan.name,
         expiryStr,
-        `$${Number(sub.totalAmount).toFixed(2)}`
+        `₹${Number(sub.totalAmount).toFixed(2)}`
       );
 
       const res = await emailService.sendEmail({

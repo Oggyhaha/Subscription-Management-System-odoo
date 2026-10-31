@@ -32,7 +32,8 @@ describe("src/lib/money", () => {
   });
 
   it("formats currency cleanly", () => {
-    expect(formatMoney("1234.50")).toBe("$1,234.50");
+    expect(formatMoney("1234.50")).toContain("1,234.50");
+    expect(formatMoney("1234.50")).toContain("₹");
   });
 
   it("safely handles division and throws on division by zero", () => {

@@ -130,7 +130,7 @@ export function DemoPortalBoxes() {
               </span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-              Pre-seeded Acme Corp account with active Starter Monthly plan ($120/mo), invoices, and payments.
+              Pre-seeded Acme Corp account with active Starter Monthly plan (₹120/mo), invoices, and payments.
             </p>
             <div className="text-[11px] font-mono text-muted-foreground/80 mb-4 bg-paper-2 p-1.5 rounded border border-rule/60">
               alex@acmecorp.com (Acme Corp)

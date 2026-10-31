@@ -87,7 +87,7 @@ export function PaymentHistoryTable({ payments, isLoading = false }: PaymentHist
                 <td className="py-2.5 px-3 text-right font-semibold font-mono text-emerald-600 dark:text-emerald-400">
                   <div className="flex items-center justify-end gap-1">
                     <ArrowDownRight className="h-3.5 w-3.5" />
-                    <span>+${Number(p.amount).toFixed(2)}</span>
+                    <span>+₹${Number(p.amount).toFixed(2)}</span>
                   </div>
                 </td>
               </tr>

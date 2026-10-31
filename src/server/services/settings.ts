@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS: SystemSettingsConfig = {
   businessName: "Brightloop Software Inc.",
   supportEmail: "billing@brightloop.com",
   currency: "USD",
-  currencySymbol: "$",
+  currencySymbol: "₹",
   invoiceDueDaysDefault: 30,
   defaultPaymentTerms: "Net 30",
   roundingPolicy: "Banker's Safe ROUND_HALF_UP (2 Decimal Places)",

@@ -103,10 +103,10 @@ export function isNegative(value: MoneyInput): boolean {
 /**
  * Formats Decimal or MoneyInput to localized currency string (e.g., "$1,234.56")
  */
-export function formatMoney(value: MoneyInput, currency = "USD"): string {
+export function formatMoney(value: MoneyInput, currency = "INR"): string {
   const decimal = roundMoney(value);
   const num = decimal.toNumber();
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: currency,
     minimumFractionDigits: MONEY_DECIMAL_PLACES,

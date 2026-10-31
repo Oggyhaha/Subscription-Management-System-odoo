@@ -12,7 +12,7 @@ export interface MoneyTextProps {
 
 export function MoneyText({
   amount,
-  currency = "$",
+  currency = "₹",
   decimals = 2,
   className,
   showPositiveSign = false,

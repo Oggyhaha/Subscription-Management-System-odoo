@@ -36,7 +36,7 @@ export default function SettingsPage() {
       businessName: "",
       supportEmail: "",
       currency: "USD",
-      currencySymbol: "$",
+      currencySymbol: "₹",
       invoiceDueDaysDefault: 30,
       defaultPaymentTerms: "Net 30",
       roundingPolicy: "Banker's Safe ROUND_HALF_UP (2 Decimal Places)",
@@ -246,7 +246,7 @@ export default function SettingsPage() {
               </Label>
               <Input
                 id="currencySymbol"
-                placeholder="$"
+                placeholder="₹"
                 {...register("currencySymbol")}
                 className="bg-paper-2 font-mono"
               />

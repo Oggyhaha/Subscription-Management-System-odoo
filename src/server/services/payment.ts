@@ -229,7 +229,7 @@ export class PaymentService {
     // 9. Post-commit payment confirmation email (Non-blocking, failure never affects payment)
     if (transactionResult.customerEmail) {
       try {
-        const formattedAmount = `$${paymentAmount.toFixed(2)}`;
+        const formattedAmount = `₹${paymentAmount.toFixed(2)}`;
         const formattedDate = (params.paymentDate || new Date()).toLocaleDateString();
         const template = paymentConfirmationTemplate(
           transactionResult.payment.paymentNumber,

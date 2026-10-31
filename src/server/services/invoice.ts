@@ -488,7 +488,7 @@ export class InvoiceService {
     const template = invoiceDeliveryTemplate(
       customerName,
       invoice.invoiceNumber,
-      `$${invoice.totalAmount.toFixed(2)}`,
+      `₹${invoice.totalAmount.toFixed(2)}`,
       dueDateStr,
       viewUrl
     );

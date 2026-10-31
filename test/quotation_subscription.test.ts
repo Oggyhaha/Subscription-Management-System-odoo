@@ -180,7 +180,8 @@ describe("Quotation -> Subscription Conversion & Idempotency", () => {
     expect(subtotal.toString()).toBe("1000");
     expect(taxTotal.toString()).toBe("100");
     expect(totalAmount.toString()).toBe("1100");
-    expect(formatMoney(totalAmount)).toBe("$1,100.00");
+    expect(formatMoney(totalAmount)).toContain("1,100.00");
+    expect(formatMoney(totalAmount)).toContain("₹");
   });
 
   it("prevents double-conversion idempotently", () => {

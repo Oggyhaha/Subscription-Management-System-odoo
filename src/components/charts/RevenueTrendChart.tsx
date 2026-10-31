@@ -52,7 +52,7 @@ export function RevenueTrendChart({ data }: RevenueTrendChartProps) {
             fontSize={12}
             tickLine={false}
             axisLine={false}
-            tickFormatter={(value) => `$${value >= 1000 ? `${(value / 1000).toFixed(0)}k` : value}`}
+            tickFormatter={(value) => `₹${value >= 1000 ? `${(value / 1000).toFixed(0)}k` : value}`}
           />
           <Tooltip
             contentStyle={{

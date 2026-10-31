@@ -96,7 +96,7 @@ export function PaymentsListView({ basePath }: PaymentsListViewProps) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <KpiCard
           title="Total Payments Received"
-          value={`$${totalCollected.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          value={`₹${totalCollected.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={DollarSign}
           subtitle="Processed volume in view"
         />
@@ -108,7 +108,7 @@ export function PaymentsListView({ basePath }: PaymentsListViewProps) {
         />
         <KpiCard
           title="Avg. Transaction Size"
-          value={totalCount > 0 ? `$${(totalCollected / totalCount).toFixed(2)}` : "$0.00"}
+          value={totalCount > 0 ? `₹${(totalCollected / totalCount).toFixed(2)}` : "₹0.00"}
           icon={TrendingUp}
           subtitle="Mean payment amount"
         />
@@ -215,7 +215,7 @@ export function PaymentsListView({ basePath }: PaymentsListViewProps) {
                     <td className="py-3.5 px-4 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">
                       <div className="flex items-center justify-end gap-1">
                         <ArrowDownRight className="h-4 w-4" />
-                        <span>${Number(p.amount).toFixed(2)}</span>
+                        <span>₹${Number(p.amount).toFixed(2)}</span>
                       </div>
                     </td>
                   </tr>

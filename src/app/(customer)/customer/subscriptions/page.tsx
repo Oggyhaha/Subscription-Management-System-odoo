@@ -130,7 +130,7 @@ export default function CustomerSubscriptionsPage() {
                         : "—"}
                     </td>
                     <td className="py-3.5 px-4 font-mono font-bold text-ink">
-                      ${Number(sub.totalAmount).toFixed(2)}
+                      ₹${Number(sub.totalAmount).toFixed(2)}
                     </td>
                     <td className="py-3.5 px-4">
                       <StatusBadge status={sub.status} />

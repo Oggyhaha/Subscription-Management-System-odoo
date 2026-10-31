@@ -100,7 +100,7 @@ export default function CustomerDashboardPage() {
           title="Next Renewal"
           value={
             data?.nextRenewal
-              ? `$${data.nextRenewal.amount.toFixed(2)}`
+              ? `₹${data.nextRenewal.amount.toFixed(2)}`
               : "None"
           }
           icon={Calendar}
@@ -112,7 +112,7 @@ export default function CustomerDashboardPage() {
         />
         <KpiCard
           title="Outstanding Balance"
-          value={`$${(data?.totalOutstanding || 0).toFixed(2)}`}
+          value={`₹${(data?.totalOutstanding || 0).toFixed(2)}`}
           icon={Receipt}
           subtitle={
             (data?.unpaidInvoicesCount || 0) > 0
@@ -165,7 +165,7 @@ export default function CustomerDashboardPage() {
 
                 <div className="flex items-center gap-4">
                   <span className="font-mono font-bold text-sm text-ink">
-                    ${sub.totalAmount.toFixed(2)}
+                    ₹${sub.totalAmount.toFixed(2)}
                   </span>
                   <Link href={`/customer/subscriptions/${sub.id}`}>
                     <Button variant="outline" size="sm" className="text-xs h-8">
@@ -222,7 +222,7 @@ export default function CustomerDashboardPage() {
                   <div className="text-right">
                     <span className="text-[11px] text-ink-muted block">Balance Due:</span>
                     <span className="font-mono font-bold text-sm text-accent">
-                      ${inv.amountDue.toFixed(2)}
+                      ₹${inv.amountDue.toFixed(2)}
                     </span>
                   </div>
                   <Link href={`/customer/invoices/${inv.id}`}>

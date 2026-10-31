@@ -71,7 +71,7 @@ export default function CustomerPaymentsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <KpiCard
           title="Total Payments Completed"
-          value={`$${totalPaid.toFixed(2)}`}
+          value={`₹${totalPaid.toFixed(2)}`}
           icon={DollarSign}
           subtitle="Lifetime settled payments"
         />
@@ -139,7 +139,7 @@ export default function CustomerPaymentsPage() {
                     <td className="py-3.5 px-4 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">
                       <div className="flex items-center justify-end gap-1">
                         <ArrowDownRight className="h-4 w-4" />
-                        <span>+${Number(p.amount).toFixed(2)}</span>
+                        <span>+₹${Number(p.amount).toFixed(2)}</span>
                       </div>
                     </td>
                   </tr>
