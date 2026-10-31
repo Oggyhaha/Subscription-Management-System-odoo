@@ -1,4 +1,5 @@
 import { AppError } from "@/lib/errors";
+import { getSessionPayload } from "./session";
 
 export type Role = "ADMIN" | "STAFF" | "CUSTOMER";
 
@@ -7,6 +8,7 @@ export interface SessionUser {
   email: string;
   role: Role;
   customerProfileId?: string | null;
+  name: string;
 }
 
 export interface Session {
@@ -15,16 +17,26 @@ export interface Session {
 
 /**
  * Returns current authenticated session or null.
- * Stub for Dev B integration; full implementation in Hour 2.
  */
 export async function getSession(): Promise<Session | null> {
-  // TODO(dev-a): Implement full JWT/cookie session extraction in Hour 2
-  return null;
+  const payload = await getSessionPayload();
+  if (!payload) {
+    return null;
+  }
+
+  return {
+    user: {
+      id: payload.userId,
+      email: payload.email,
+      role: payload.role,
+      customerProfileId: payload.customerProfileId || null,
+      name: payload.name,
+    },
+  };
 }
 
 /**
  * Ensures user is authenticated, throws UNAUTHORIZED if not.
- * Stub for Dev B integration; full implementation in Hour 2.
  */
 export async function requireUser(): Promise<SessionUser> {
   const session = await getSession();
@@ -36,22 +48,20 @@ export async function requireUser(): Promise<SessionUser> {
 
 /**
  * Ensures user is authenticated and possesses one of the allowed roles.
- * Stub for Dev B integration; full implementation in Hour 2.
  */
 export async function requireRole(allowedRoles: Role | Role[]): Promise<SessionUser> {
   const user = await requireUser();
   const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
 
   if (!roles.includes(user.role)) {
-    throw AppError.forbidden(`Requires one of roles: ${roles.join(", ")}`);
+    throw AppError.forbidden(`Access denied: Requires one of roles: ${roles.join(", ")}`);
   }
 
   return user;
 }
 
 /**
- * Ensures user owns the resource or is internal staff/admin.
- * Stub for Dev B integration; full implementation in Hour 2.
+ * Ensures user owns the customer profile or is internal staff/admin.
  */
 export async function requireCustomerOwnership(targetCustomerId: string): Promise<SessionUser> {
   const user = await requireUser();
@@ -66,4 +76,3 @@ export async function requireCustomerOwnership(targetCustomerId: string): Promis
 
   throw AppError.forbidden("Access denied: You do not own this customer profile");
 }
-

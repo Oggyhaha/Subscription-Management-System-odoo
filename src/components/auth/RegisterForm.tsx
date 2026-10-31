@@ -60,7 +60,9 @@ export function RegisterForm({ onSubmitAction }: RegisterFormProps) {
         if (!res.success) {
           setErrorMessage(res.error || "Registration failed. Please check your details.");
         } else {
-          setSuccessMessage("Account created successfully! You can now log in.");
+          setSuccessMessage("Account created successfully! Redirecting to customer portal...");
+          const redirect = (res as { redirectUrl?: string }).redirectUrl || "/customer";
+          window.location.href = redirect;
         }
       } else {
         // Static simulation before server action is attached by Dev A

@@ -69,7 +69,8 @@ export function ResetPasswordForm({ onSubmitAction }: ResetPasswordFormProps) {
         if (!res.success) {
           setErrorMessage(res.error || "Failed to reset password. The link may have expired.");
         } else {
-          setSuccessMessage("Your password has been successfully reset! You can now log in.");
+          setSuccessMessage("Your password has been successfully reset! Redirecting to sign in...");
+          setTimeout(() => { window.location.href = "/login"; }, 1500);
         }
       } else {
         // Static simulation before server action is attached by Dev A
