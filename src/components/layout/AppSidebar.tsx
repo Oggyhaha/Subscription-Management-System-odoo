@@ -21,6 +21,8 @@ import {
   History,
   Settings,
   AlertTriangle,
+  Mail,
+  PlayCircle,
   LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -53,6 +55,7 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
       { title: "Quotation templates", href: "/admin/quotation-templates", icon: FileText },
       { title: "Invoices", href: "/admin/invoices", icon: Receipt },
       { title: "Payments", href: "/admin/payments", icon: CreditCard },
+      { title: "Billing runs", href: "/admin/billing-runs", icon: PlayCircle },
     ],
   },
   {
@@ -71,6 +74,7 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
       { title: "Customers", href: "/admin/customers", icon: Users },
       { title: "Staff members", href: "/admin/staff", icon: UserCheck },
       { title: "Audit log", href: "/admin/audit-logs", icon: History },
+      { title: "Email logs", href: "/admin/email-logs", icon: Mail },
       { title: "System settings", href: "/admin/settings", icon: Settings },
     ],
   },

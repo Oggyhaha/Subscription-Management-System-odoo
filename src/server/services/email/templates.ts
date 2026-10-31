@@ -4,7 +4,11 @@ export interface EmailContent {
   text: string;
 }
 
-function baseEmailHtml(title: string, bodyContent: string, actionButton?: { text: string; url: string }): string {
+export function baseEmailHtml(
+  title: string,
+  bodyContent: string,
+  actionButton?: { text: string; url: string }
+): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,12 +115,35 @@ export function quotationDeliveryTemplate(
 
 // 4. Invoice Delivery
 export function invoiceDeliveryTemplate(
-  invoiceNumber: string,
-  amountDue: string,
-  dueDate: string,
-  viewUrl: string,
-  customerName: string
+  a: string,
+  b: string,
+  c: string,
+  d: string,
+  e: string
 ): EmailContent {
+  let customerName: string;
+  let invoiceNumber: string;
+  let amountDue: string;
+  let dueDate: string;
+  let viewUrl: string;
+
+  // Support both:
+  // (customerName, invoiceNumber, amountDue, dueDate, viewUrl)
+  // and (invoiceNumber, amountDue, dueDate, viewUrl, customerName)
+  if (e?.startsWith("http") || e?.startsWith("/") || b?.startsWith("INV-")) {
+    customerName = a;
+    invoiceNumber = b;
+    amountDue = c;
+    dueDate = d;
+    viewUrl = e;
+  } else {
+    invoiceNumber = a;
+    amountDue = b;
+    dueDate = c;
+    viewUrl = d;
+    customerName = e;
+  }
+
   const subject = `Invoice #${invoiceNumber} from Brightloop Software - ${amountDue} due ${dueDate}`;
   const body = `
     <p>Dear ${customerName},</p>
@@ -163,12 +190,35 @@ export function paymentConfirmationTemplate(
 
 // 6. Renewal Reminder
 export function renewalReminderTemplate(
-  subscriptionNumber: string,
-  planName: string,
-  renewalDate: string,
-  renewalAmount: string,
-  customerName: string
+  a: string,
+  b: string,
+  c: string,
+  d: string,
+  e: string
 ): EmailContent {
+  let customerName: string;
+  let subscriptionNumber: string;
+  let planName: string;
+  let renewalDate: string;
+  let renewalAmount: string;
+
+  // Support both:
+  // (customerName, subscriptionNumber, planName, renewalDate, renewalAmount)
+  // and (subscriptionNumber, planName, renewalDate, renewalAmount, customerName)
+  if (b?.startsWith("SUB-") || (a && !a.startsWith("SUB-") && !a.includes("SUB-"))) {
+    customerName = a;
+    subscriptionNumber = b;
+    planName = c;
+    renewalDate = d;
+    renewalAmount = e;
+  } else {
+    subscriptionNumber = a;
+    planName = b;
+    renewalDate = c;
+    renewalAmount = d;
+    customerName = e;
+  }
+
   const subject = `Upcoming Renewal for Subscription #${subscriptionNumber} (${planName})`;
   const body = `
     <p>Dear ${customerName},</p>
@@ -184,4 +234,3 @@ export function renewalReminderTemplate(
     text,
   };
 }
-

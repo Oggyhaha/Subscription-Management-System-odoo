@@ -133,35 +133,30 @@ describe("Tax Snapshot Durability", () => {
 
 describe("Billing Cycle Idempotency Protection", () => {
   it("generates deterministic cycle key format: sub_{id}_{start}_{end}", () => {
-    const subscriptionId = "sub_xyz789";
+    const subId = "sub_xyz";
     const start = new Date("2026-05-01T00:00:00.000Z");
     const end = new Date("2026-06-01T00:00:00.000Z");
 
-    const startIso = start.toISOString().split("T")[0];
-    const endIso = end.toISOString().split("T")[0];
-    const cycleKey = `sub_${subscriptionId}_${startIso}_${endIso}`;
-
-    expect(cycleKey).toBe("sub_sub_xyz789_2026-05-01_2026-06-01");
+    const key = `sub_${subId}_${start.toISOString().split("T")[0]}_${end.toISOString().split("T")[0]}`;
+    expect(key).toBe("sub_sub_xyz_2026-05-01_2026-06-01");
   });
 
-  it("safely handles duplicate billing cycle triggers by returning existing invoice (no duplicate rows)", async () => {
-    // Simulated in-memory billing cycle registry
+  it("returns existing invoice on duplicate cycle run without creating double charges", async () => {
+    // In-memory cycle store simulating DB unique constraint
     const billingCycleDb = new Map<string, { id: string; cycleKey: string; invoiceId: string }>();
     const invoiceDb = new Map<string, any>();
 
     async function mockGenerateInvoice(subId: string, start: Date, end: Date) {
-      const startIso = start.toISOString().split("T")[0];
-      const endIso = end.toISOString().split("T")[0];
-      const cycleKey = `sub_${subId}_${startIso}_${endIso}`;
+      const cycleKey = `sub_${subId}_${start.toISOString().split("T")[0]}_${end.toISOString().split("T")[0]}`;
 
-      // Idempotency check
-      if (billingCycleDb.has(cycleKey)) {
-        const cycle = billingCycleDb.get(cycleKey)!;
-        return { invoice: invoiceDb.get(cycle.invoiceId), isDuplicate: true };
+      // Check existing billing cycle
+      const existingCycle = billingCycleDb.get(cycleKey);
+      if (existingCycle) {
+        return { invoice: invoiceDb.get(existingCycle.invoiceId), isDuplicate: true };
       }
 
-      // Create new invoice
-      const invoiceId = `inv_${Date.now()}_${Math.random()}`;
+      // Create new invoice & record cycle
+      const invoiceId = `inv_${Date.now()}`;
       const newInvoice = {
         id: invoiceId,
         invoiceNumber: "INV-2026-000001",
@@ -210,8 +205,7 @@ describe("Invoice Lifecycle & Cancellation Safeguards", () => {
   function cancelInvoice(invoice: InvoiceMock, reason?: string): InvoiceMock {
     if (invoice.status === "PAID") {
       throw AppError.badRequest(
-        "Paid invoices cannot be cancelled. Record a refund or adjustment instead.",
-        "INVALID_STATE_TRANSITION"
+        "Paid invoices cannot be cancelled. Record a refund or adjustment instead."
       );
     }
     if (invoice.status === "CANCELLED") {
@@ -270,16 +264,16 @@ describe("Subscription Eligibility Validation for Invoice Generation", () => {
     expiryDate?: Date | null;
   }, periodStart: Date) {
     if (sub.status === "PAUSED") {
-      throw AppError.badRequest("Cannot generate invoice for a paused subscription", "SUBSCRIPTION_PAUSED");
+      throw AppError.badRequest("Cannot generate invoice for a paused subscription");
     }
     if (sub.status === "CLOSED") {
-      throw AppError.badRequest("Cannot generate invoice for a closed subscription", "SUBSCRIPTION_CLOSED");
+      throw AppError.badRequest("Cannot generate invoice for a closed subscription");
     }
     if (sub.status === "DRAFT") {
-      throw AppError.badRequest("Cannot generate invoice for a draft subscription", "INVALID_STATE_TRANSITION");
+      throw AppError.badRequest("Cannot generate invoice for a draft subscription");
     }
     if (sub.expiryDate && periodStart > sub.expiryDate) {
-      throw AppError.badRequest("Subscription expired", "SUBSCRIPTION_EXPIRED");
+      throw AppError.badRequest("Subscription expired");
     }
     return true;
   }
