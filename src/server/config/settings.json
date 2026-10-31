@@ -1,0 +1,16 @@
+{
+  "businessName": "Brightloop Software Inc.",
+  "supportEmail": "billing@brightloop.com",
+  "currency": "USD",
+  "currencySymbol": "$",
+  "invoiceDueDaysDefault": 30,
+  "defaultPaymentTerms": "Net 30",
+  "roundingPolicy": "Banker's Safe ROUND_HALF_UP (2 Decimal Places)",
+  "addressLine1": "100 Innovation Way, Suite 400",
+  "city": "San Francisco",
+  "state": "CA",
+  "postalCode": "94105",
+  "country": "US",
+  "deactivatedStaffIds": []
+}
+
