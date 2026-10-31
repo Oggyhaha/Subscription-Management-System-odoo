@@ -90,7 +90,7 @@ export function QuotationDetailView({ quotation, basePath = "/admin" }: Quotatio
 
       <PageHeader
         title={`Quotation ${quotation.quotationNumber}`}
-        description={`Offer prepared for ${quotation.customer.name}`}
+        description={`Offer prepared for ${quotation.customer?.name || "Customer"}`}
         actions={
           <div className="flex items-center gap-2">
             <StatusBadge status={quotation.status} />
@@ -173,9 +173,9 @@ export function QuotationDetailView({ quotation, basePath = "/admin" }: Quotatio
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm space-y-1">
-            <div className="font-medium text-foreground">{quotation.customer.name}</div>
-            <div className="text-xs text-muted-foreground">{quotation.customer.email}</div>
-            {quotation.customer.phone && (
+            <div className="font-medium text-foreground">{quotation.customer?.name || "Customer"}</div>
+            <div className="text-xs text-muted-foreground">{quotation.customer?.email || ""}</div>
+            {quotation.customer?.phone && (
               <div className="text-xs text-muted-foreground">{quotation.customer.phone}</div>
             )}
           </CardContent>
@@ -188,9 +188,9 @@ export function QuotationDetailView({ quotation, basePath = "/admin" }: Quotatio
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm space-y-1">
-            <div className="font-medium text-foreground">{quotation.plan.name}</div>
+            <div className="font-medium text-foreground">{quotation.plan?.name || "Standard Plan"}</div>
             <div className="text-xs text-muted-foreground">
-              Billing: {quotation.plan.billingInterval} &bull; Terms: {quotation.paymentTerms}
+              Billing: {quotation.plan?.billingInterval || "MONTHLY"} &bull; Terms: {quotation.paymentTerms}
             </div>
             {quotation.template && (
               <div className="text-xs text-primary">From template: {quotation.template.name}</div>

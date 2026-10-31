@@ -16,7 +16,8 @@ export default async function StaffQuotationDetailPage({
   const { id } = await params;
   try {
     const quotation = await quotationService.getQuotationById(id);
-    return <QuotationDetailView quotation={quotation} basePath="/staff" />;
+    const serialized = JSON.parse(JSON.stringify(quotation));
+    return <QuotationDetailView quotation={serialized} basePath="/staff" />;
   } catch {
     notFound();
   }

@@ -77,7 +77,7 @@ export function SubscriptionDetailView({
 
       <PageHeader
         title={`Subscription ${subscription.subscriptionNumber}`}
-        description={`Recurring contract for ${subscription.customer.name}`}
+        description={`Recurring contract for ${subscription.customer?.name || "Customer"}`}
         actions={
           <div className="flex items-center gap-2">
             <StatusBadge status={subscription.status} />
@@ -130,7 +130,7 @@ export function SubscriptionDetailView({
                 {subscription.allowRenewal && (
                   <ConfirmDialog
                     title="Renew Subscription"
-                    description={`Extend subscription by another ${subscription.billingInterval.toLowerCase()} cycle?`}
+                    description={`Extend subscription by another ${(subscription.billingInterval || "monthly").toLowerCase()} cycle?`}
                     confirmLabel="Renew Now"
                     onConfirm={() => handleAction("RENEW", "Manual renewal triggered")}
                     trigger={
@@ -254,9 +254,9 @@ export function SubscriptionDetailView({
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm space-y-1">
-            <div className="font-medium text-foreground">{subscription.customer.name}</div>
-            <div className="text-xs text-muted-foreground">{subscription.customer.email}</div>
-            {subscription.customer.phone && (
+            <div className="font-medium text-foreground">{subscription.customer?.name || "Customer"}</div>
+            <div className="text-xs text-muted-foreground">{subscription.customer?.email || ""}</div>
+            {subscription.customer?.phone && (
               <div className="text-xs text-muted-foreground">{subscription.customer.phone}</div>
             )}
           </CardContent>
@@ -269,7 +269,7 @@ export function SubscriptionDetailView({
             </CardTitle>
           </CardHeader>
           <CardContent className="text-xs space-y-1.5">
-            <div className="font-medium text-sm text-foreground">{subscription.plan.name}</div>
+            <div className="font-medium text-sm text-foreground">{subscription.plan?.name || "Standard Plan"}</div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <span>Interval:</span>
               <span className="font-semibold uppercase">{subscription.billingInterval}</span>

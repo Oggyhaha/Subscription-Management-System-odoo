@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +26,7 @@ export interface ResetPasswordFormProps {
 }
 
 export function ResetPasswordForm({ onSubmitAction }: ResetPasswordFormProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const tokenParam = searchParams.get("token") || "";
 
@@ -70,7 +72,7 @@ export function ResetPasswordForm({ onSubmitAction }: ResetPasswordFormProps) {
           setErrorMessage(res.error || "Failed to reset password. The link may have expired.");
         } else {
           setSuccessMessage("Your password has been successfully reset! Redirecting to sign in...");
-          setTimeout(() => { window.location.href = "/login"; }, 1500);
+          setTimeout(() => { router.push("/login"); }, 1000);
         }
       } else {
         // Static simulation before server action is attached by Dev A

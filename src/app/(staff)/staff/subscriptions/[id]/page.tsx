@@ -16,7 +16,8 @@ export default async function StaffSubscriptionDetailPage({
   const { id } = await params;
   try {
     const subscription = await subscriptionService.getSubscriptionById(id);
-    return <SubscriptionDetailView subscription={subscription} basePath="/staff" />;
+    const serialized = JSON.parse(JSON.stringify(subscription));
+    return <SubscriptionDetailView subscription={serialized} basePath="/staff" />;
   } catch {
     notFound();
   }

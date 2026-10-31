@@ -182,7 +182,7 @@ export function QuotationTemplatesView({
       header: "Line Items",
       cell: ({ row }) => (
         <span className="text-xs font-mono bg-muted px-2 py-0.5 rounded">
-          {row.original.items.length} line{row.original.items.length !== 1 ? "s" : ""}
+          {row.original.items?.length || 0} line{(row.original.items?.length || 0) !== 1 ? "s" : ""}
         </span>
       ),
     },

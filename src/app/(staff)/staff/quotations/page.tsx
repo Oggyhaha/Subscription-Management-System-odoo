@@ -10,5 +10,6 @@ export const metadata = {
 export default async function StaffQuotationsPage() {
   const result = await quotationService.listQuotations({ pageSize: 100 });
 
-  return <QuotationsListView quotations={result.items as any} basePath="/staff" />;
+  const serialized = JSON.parse(JSON.stringify(result.items));
+  return <QuotationsListView quotations={serialized} basePath="/staff" />;
 }

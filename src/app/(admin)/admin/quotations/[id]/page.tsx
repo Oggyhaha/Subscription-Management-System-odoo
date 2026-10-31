@@ -16,7 +16,8 @@ export default async function AdminQuotationDetailPage({
   const { id } = await params;
   try {
     const quotation = await quotationService.getQuotationById(id);
-    return <QuotationDetailView quotation={quotation} basePath="/admin" />;
+    const serialized = JSON.parse(JSON.stringify(quotation));
+    return <QuotationDetailView quotation={serialized} basePath="/admin" />;
   } catch {
     notFound();
   }

@@ -80,8 +80,8 @@ export function SubscriptionsListView({
       header: "Customer",
       cell: ({ row }) => (
         <div>
-          <div className="font-medium text-foreground">{row.original.customer.name}</div>
-          <div className="text-xs text-muted-foreground">{row.original.customer.email}</div>
+          <div className="font-medium text-foreground">{row.original.customer?.name || "Customer"}</div>
+          <div className="text-xs text-muted-foreground">{row.original.customer?.email || ""}</div>
         </div>
       ),
     },
@@ -90,9 +90,9 @@ export function SubscriptionsListView({
       header: "Plan & Cycle",
       cell: ({ row }) => (
         <div>
-          <div className="font-medium">{row.original.plan.name}</div>
+          <div className="font-medium">{row.original.plan?.name || "Standard Plan"}</div>
           <div className="text-xs text-muted-foreground capitalize">
-            {row.original.billingInterval.toLowerCase()}
+            {row.original.billingInterval ? row.original.billingInterval.toLowerCase() : "monthly"}
           </div>
         </div>
       ),

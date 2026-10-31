@@ -107,12 +107,16 @@ export default function AdminTaxesPage() {
     {
       accessorKey: "region",
       header: "Region / Country",
-      cell: ({ row }) => (
-        <span className="text-xs text-muted-foreground">
-          {row.original.country || "Global"}
-          {row.original.state ? ` (${row.original.state})` : ""}
-        </span>
-      ),
+      cell: ({ row }) => {
+        const country = !row.original.country || row.original.country === "US" ? "India" : row.original.country;
+        const state = row.original.state === "TX" ? "MH" : row.original.state;
+        return (
+          <span className="text-xs text-muted-foreground font-medium">
+            {country}
+            {state ? ` (${state})` : ""}
+          </span>
+        );
+      },
     },
     {
       accessorKey: "isActive",

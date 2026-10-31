@@ -38,7 +38,7 @@ export function TaxCalculatorCard() {
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="space-y-1">
-            <Label className="text-xs">Amount ($)</Label>
+            <Label className="text-xs">Amount (₹)</Label>
             <Input
               type="number"
               step="0.01"

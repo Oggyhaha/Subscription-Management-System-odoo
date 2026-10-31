@@ -57,7 +57,7 @@ export function TaxFormDialog({
       name: "",
       rate: "10.00",
       isInclusive: false,
-      country: "US",
+      country: "India",
       state: "",
       isDefault: false,
       isActive: true,
@@ -74,7 +74,7 @@ export function TaxFormDialog({
         name: ruleToEdit.name,
         rate: displayRate,
         isInclusive: false,
-        country: ruleToEdit.country || "US",
+        country: ruleToEdit.country || "India",
         state: ruleToEdit.state || "",
         isDefault: ruleToEdit.isDefault,
         isActive: ruleToEdit.isActive,
@@ -84,7 +84,7 @@ export function TaxFormDialog({
         name: "",
         rate: "10.00",
         isInclusive: false,
-        country: "US",
+        country: "India",
         state: "",
         isDefault: false,
         isActive: true,
@@ -139,7 +139,7 @@ export function TaxFormDialog({
                 <FormItem>
                   <FormLabel>Tax rule name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Standard VAT (10%)" {...field} />
+                    <Input placeholder="e.g. GST Standard (18%)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -176,7 +176,7 @@ export function TaxFormDialog({
                   <FormItem>
                     <FormLabel>Country code</FormLabel>
                     <FormControl>
-                      <Input placeholder="US" value={field.value || ""} onChange={field.onChange} />
+                      <Input placeholder="India" value={field.value || ""} onChange={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -190,7 +190,7 @@ export function TaxFormDialog({
                   <FormItem>
                     <FormLabel>State / Province (optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="CA, NY..." value={field.value || ""} onChange={field.onChange} />
+                      <Input placeholder="MH, DL, GJ, KA..." value={field.value || ""} onChange={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

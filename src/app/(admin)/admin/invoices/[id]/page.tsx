@@ -17,9 +17,9 @@ export default async function AdminInvoiceDetailPage({
   const { id } = await params;
   try {
     const invoice = await InvoiceService.getInvoiceById(id);
-    return <InvoiceDetailView invoice={invoice} basePath="/admin" />;
+    const serialized = JSON.parse(JSON.stringify(invoice));
+    return <InvoiceDetailView invoice={serialized} basePath="/admin" />;
   } catch {
     notFound();
   }
 }
-

@@ -18,10 +18,10 @@ export default async function AdminQuotationTemplatesPage() {
 
   return (
     <QuotationTemplatesView
-      templates={templates as any}
-      plans={plans}
-      products={products}
-      customers={customers}
+      templates={JSON.parse(JSON.stringify(templates))}
+      plans={JSON.parse(JSON.stringify(plans))}
+      products={JSON.parse(JSON.stringify(products))}
+      customers={JSON.parse(JSON.stringify(customers))}
       basePath="/admin"
     />
   );

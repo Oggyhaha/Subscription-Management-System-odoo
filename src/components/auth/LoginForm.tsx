@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginInput } from "@/schemas/auth";
@@ -24,6 +25,7 @@ export interface LoginFormProps {
 }
 
 export function LoginForm({ onSubmitAction }: LoginFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
@@ -49,7 +51,8 @@ export function LoginForm({ onSubmitAction }: LoginFormProps) {
         } else {
           setSuccessMessage("Sign in successful. Redirecting to workspace...");
           const redirect = (res as { redirectUrl?: string }).redirectUrl || "/customer";
-          window.location.href = redirect;
+          router.push(redirect);
+          router.refresh();
         }
       } else {
         await new Promise((resolve) => setTimeout(resolve, 800));
@@ -70,7 +73,8 @@ export function LoginForm({ onSubmitAction }: LoginFormProps) {
     try {
       const res = await demoLoginAction(role);
       if (res.success && res.redirectUrl) {
-        window.location.href = res.redirectUrl;
+        router.push(res.redirectUrl);
+        router.refresh();
       } else {
         setErrorMessage(res.error || "Demo login failed");
         setSuccessMessage(null);

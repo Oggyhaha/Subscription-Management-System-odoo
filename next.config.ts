@@ -27,11 +27,12 @@ const securityHeaders = [
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+    value: "camera=(), microphone=(), geolocation=()",
   },
 ];
 
 const nextConfig: NextConfig = {
+  devIndicators: false,
   experimental: {
     serverActions: {
       bodySizeLimit: "2mb",

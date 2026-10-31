@@ -214,13 +214,13 @@ export function DiscountFormDialog({
                 className="w-full h-10 px-3 rounded-md bg-paper-2 border border-border text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <option value="PERCENTAGE">Percentage (%)</option>
-                <option value="FIXED_AMOUNT">Fixed Amount ($)</option>
+                <option value="FIXED_AMOUNT">Fixed Amount (₹)</option>
               </select>
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="value" className="text-xs font-medium text-ink-muted">
-                {selectedType === "PERCENTAGE" ? "Percentage Value (0-100) *" : "Fixed Dollar Value ($) *"}
+                {selectedType === "PERCENTAGE" ? "Percentage Value (0-100) *" : "Fixed Rupee Value (₹) *"}
               </Label>
               <Input
                 id="value"
@@ -276,7 +276,7 @@ export function DiscountFormDialog({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label htmlFor="minPurchaseAmount" className="text-xs font-medium text-ink-muted">
-                Minimum Purchase Amount ($)
+                Minimum Purchase Amount (₹)
               </Label>
               <Input
                 id="minPurchaseAmount"

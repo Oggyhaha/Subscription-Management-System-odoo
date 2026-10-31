@@ -212,7 +212,7 @@ export default function DiscountsPage() {
           >
             <option value="ALL">All Types</option>
             <option value="PERCENTAGE">Percentage (%)</option>
-            <option value="FIXED_AMOUNT">Fixed Amount ($)</option>
+            <option value="FIXED_AMOUNT">Fixed Amount (₹)</option>
           </select>
         </div>
       </div>
@@ -261,10 +261,10 @@ export default function DiscountsPage() {
                       </span>
                     </td>
                     <td className="py-3.5 px-4 font-medium text-ink">
-                      <div>{discount.name}</div>
+                      <div>{discount.name?.replace(/\$/g, "₹")}</div>
                       {discount.minPurchaseAmount && (
                         <span className="text-xs text-ink-muted">
-                          Min. ₹${Number(discount.minPurchaseAmount).toFixed(2)}
+                          Min. ₹{Number(discount.minPurchaseAmount).toFixed(2)}
                         </span>
                       )}
                     </td>
@@ -272,7 +272,7 @@ export default function DiscountsPage() {
                       {discount.type === "PERCENTAGE" ? (
                         <span>{discount.value}% Off</span>
                       ) : (
-                        <span>₹${Number(discount.value).toFixed(2)} Off</span>
+                        <span>₹{Number(discount.value).toFixed(2)} Off</span>
                       )}
                     </td>
                     <td className="py-3.5 px-4 text-xs text-ink-muted">

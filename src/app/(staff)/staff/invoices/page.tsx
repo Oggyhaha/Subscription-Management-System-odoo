@@ -28,9 +28,10 @@ export default async function StaffInvoicesPage({
     pageSize: 50,
   });
 
+  const serialized = JSON.parse(JSON.stringify(result.data));
   return (
     <InvoicesListView
-      invoices={result.data as any}
+      invoices={serialized}
       pagination={result.pagination}
       basePath="/staff"
     />

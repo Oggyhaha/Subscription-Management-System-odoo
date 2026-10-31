@@ -2,10 +2,12 @@
 
 import * as React from "react";
 import { ShieldCheck, Users, Receipt, ArrowRight, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { demoLoginAction } from "@/server/actions/auth";
 
 export function DemoPortalBoxes() {
+  const router = useRouter();
   const [loadingRole, setLoadingRole] = React.useState<"ADMIN" | "STAFF" | "CUSTOMER" | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -17,7 +19,8 @@ export function DemoPortalBoxes() {
     try {
       const res = await demoLoginAction(role);
       if (res.success && res.redirectUrl) {
-        window.location.href = res.redirectUrl;
+        router.push(res.redirectUrl);
+        router.refresh();
       } else {
         setError(res.error || "Failed to launch demo account");
         setLoadingRole(null);

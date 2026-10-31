@@ -72,7 +72,8 @@ export function AppTopbar({
     } catch {
       // Fallback regardless of network
     } finally {
-      window.location.href = "/login";
+      router.push("/login");
+      router.refresh();
     }
   };
 

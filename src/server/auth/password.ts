@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { AppError } from "@/lib/errors";
 
-const SALT_ROUNDS = 12;
+const SALT_ROUNDS = 10;
 
 /**
  * Strictly verifies password against Brightloop Software policy:

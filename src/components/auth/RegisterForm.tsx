@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterInput } from "@/schemas/auth";
@@ -24,6 +25,7 @@ export interface RegisterFormProps {
 }
 
 export function RegisterForm({ onSubmitAction }: RegisterFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
@@ -62,7 +64,8 @@ export function RegisterForm({ onSubmitAction }: RegisterFormProps) {
         } else {
           setSuccessMessage("Account created successfully! Redirecting to customer portal...");
           const redirect = (res as { redirectUrl?: string }).redirectUrl || "/customer";
-          window.location.href = redirect;
+          router.push(redirect);
+          router.refresh();
         }
       } else {
         // Static simulation before server action is attached by Dev A

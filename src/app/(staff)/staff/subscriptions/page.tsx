@@ -10,5 +10,6 @@ export const metadata = {
 export default async function StaffSubscriptionsPage() {
   const result = await subscriptionService.listSubscriptions({ pageSize: 100 });
 
-  return <SubscriptionsListView subscriptions={result.items as any} basePath="/staff" />;
+  const serialized = JSON.parse(JSON.stringify(result.items));
+  return <SubscriptionsListView subscriptions={serialized} basePath="/staff" />;
 }

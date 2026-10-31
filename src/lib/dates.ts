@@ -56,30 +56,44 @@ export function generateCycleKey(subscriptionId: string, periodStart: Date, peri
 }
 
 /**
- * Formats a date into a standard user-friendly string
+ * Formats a date into a standard user-friendly string safely
  */
 export function formatDate(date: Date | string | null | undefined): string {
   if (!date) return "—";
-  const d = typeof date === "string" ? parseISO(date) : date;
-  return format(d, "MMM dd, yyyy");
+  try {
+    const d = typeof date === "string" ? parseISO(date) : new Date(date);
+    if (isNaN(d.getTime())) return "—";
+    return format(d, "MMM dd, yyyy");
+  } catch {
+    return "—";
+  }
 }
 
 /**
- * Formats a date and time for audit logs and timestamps
+ * Formats a date and time for audit logs and timestamps safely
  */
 export function formatDateTime(date: Date | string | null | undefined): string {
   if (!date) return "—";
-  const d = typeof date === "string" ? parseISO(date) : date;
-  return format(d, "MMM dd, yyyy HH:mm:ss");
+  try {
+    const d = typeof date === "string" ? parseISO(date) : new Date(date);
+    if (isNaN(d.getTime())) return "—";
+    return format(d, "MMM dd, yyyy HH:mm:ss");
+  } catch {
+    return "—";
+  }
 }
 
 /**
  * Checks if target date is overdue relative to today (ignoring hours)
  */
 export function isOverdue(dueDate: Date | string): boolean {
-  const due = startOfDay(typeof dueDate === "string" ? parseISO(dueDate) : dueDate);
-  const today = startOfDay(new Date());
-  return isBefore(due, today);
+  try {
+    const due = startOfDay(typeof dueDate === "string" ? parseISO(dueDate) : dueDate);
+    const today = startOfDay(new Date());
+    return isBefore(due, today);
+  } catch {
+    return false;
+  }
 }
 
 export {
@@ -96,4 +110,3 @@ export {
   endOfDay,
   lastDayOfMonth,
 };
-

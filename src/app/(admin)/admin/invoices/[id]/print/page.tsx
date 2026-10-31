@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  return { title: `Print Invoice ${id}` };
+  return { title: `Print Invoice ${id} — Admin` };
 }
 
 export default async function AdminInvoicePrintPage({
@@ -17,9 +17,9 @@ export default async function AdminInvoicePrintPage({
   const { id } = await params;
   try {
     const invoice = await InvoiceService.getInvoiceById(id);
-    return <InvoicePrint invoice={invoice} basePath="/admin" />;
+    const serialized = JSON.parse(JSON.stringify(invoice));
+    return <InvoicePrint invoice={serialized} basePath="/admin" />;
   } catch {
     notFound();
   }
 }
-

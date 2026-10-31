@@ -94,15 +94,15 @@ export function QuotationsListView({ quotations, basePath = "/admin" }: Quotatio
       header: "Customer",
       cell: ({ row }) => (
         <div>
-          <div className="font-medium text-foreground">{row.original.customer.name}</div>
-          <div className="text-xs text-muted-foreground">{row.original.customer.email}</div>
+          <div className="font-medium text-foreground">{row.original.customer?.name || "Customer"}</div>
+          <div className="text-xs text-muted-foreground">{row.original.customer?.email || ""}</div>
         </div>
       ),
     },
     {
       accessorKey: "plan.name",
       header: "Plan",
-      cell: ({ row }) => row.original.plan.name,
+      cell: ({ row }) => row.original.plan?.name || "Standard Plan",
     },
     {
       accessorKey: "totalAmount",
@@ -148,7 +148,7 @@ export function QuotationsListView({ quotations, basePath = "/admin" }: Quotatio
               <>
                 <ConfirmDialog
                   title="Accept Quotation"
-                  description={`Accept quotation #${item.quotationNumber} and create an active Subscription for ${item.customer.name}?`}
+                  description={`Accept quotation #${item.quotationNumber} and create an active Subscription for ${item.customer?.name || "Customer"}?`}
                   confirmLabel="Accept & Create Subscription"
                   onConfirm={() => handleAccept(item.id)}
                   trigger={
