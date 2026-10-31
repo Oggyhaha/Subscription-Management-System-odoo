@@ -23,26 +23,27 @@ const envSchema = z.object({
 export type Env = z.infer<typeof envSchema>;
 
 function validateEnv(): Env {
+  // In build or test environments without runtime secrets, provide safe fallback
+  if (process.env.NODE_ENV === "test") {
+    return {
+      NODE_ENV: "test",
+      DATABASE_URL: process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/subscription_db",
+      AUTH_SECRET: process.env.AUTH_SECRET || "test-secret-at-least-16-characters-long",
+      CRON_SECRET: process.env.CRON_SECRET || "test-cron-secret",
+      SMTP_HOST: "localhost",
+      SMTP_PORT: 587,
+      SMTP_SECURE: false,
+      SMTP_USER: "",
+      SMTP_PASS: "",
+      SMTP_FROM_EMAIL: "billing@brightloop.com",
+      SMTP_FROM_NAME: "Brightloop Software Billing",
+      APP_URL: "http://localhost:3000",
+    };
+  }
+
   const parsed = envSchema.safeParse(process.env);
   if (!parsed.success) {
     console.error("❌ Invalid environment variables:", JSON.stringify(parsed.error.format(), null, 2));
-    // In build or test environments without runtime secrets, provide safe fallback
-    if (process.env.NODE_ENV === "test") {
-      return {
-        NODE_ENV: "test",
-        DATABASE_URL: process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/subscription_db",
-        AUTH_SECRET: "test-secret-at-least-16-characters-long",
-        CRON_SECRET: "test-cron-secret",
-        SMTP_HOST: "localhost",
-        SMTP_PORT: 587,
-        SMTP_SECURE: false,
-        SMTP_USER: "",
-        SMTP_PASS: "",
-        SMTP_FROM_EMAIL: "billing@brightloop.com",
-        SMTP_FROM_NAME: "Brightloop Software Billing",
-        APP_URL: "http://localhost:3000",
-      };
-    }
     throw new Error("Invalid environment variables");
   }
   return parsed.data;

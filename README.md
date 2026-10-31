@@ -19,9 +19,9 @@ A unified recurring billing and subscription management platform built for the O
 ## Architecture & Project Structure
 - `prisma/`: Prisma schema (`schema.prisma`) with 21 relational models and SQL migrations
 - `src/server/`: Server-only business logic and security boundary
-  - `services/`: Core billing, subscription lifecycle, invoicing, and payment services
+  - `services/`: Core billing, subscription lifecycle, invoicing, email, and payment services
   - `actions/`: Next.js Server Actions invoked by client UI
-  - `auth/`: Authentication guards, session handling, RBAC (`ADMIN`, `STAFF`, `CUSTOMER`)
+  - `auth/`: Authentication guards, session handling, password policy, crypto, RBAC (`ADMIN`, `STAFF`, `CUSTOMER`)
   - `db.ts`: Prisma Client singleton
   - `errors.ts`: Typed application error classes
 - `src/lib/`: Shared utilities
@@ -34,7 +34,26 @@ A unified recurring billing and subscription management platform built for the O
 - `src/components/`:
   - `ui/`: shadcn/ui atomic components
   - `shared/`: Reusable navigation, data tables, metrics cards, modal dialogs
-- `src/schemas/`: Zod validation schemas for forms, subscriptions, products, and invoices
+  - `auth/`: High-finish Hallmark auth forms
+- `src/schemas/`: Zod validation schemas for forms, auth, subscriptions, products, and invoices
+
+---
+
+## Demo Accounts & Passwords (Development Only)
+> [!IMPORTANT]
+> These credentials are strictly for hackathon testing and local evaluation. Never use demo passwords in production.
+
+| Role | Email | Password | Access / Notes |
+|---|---|---|---|
+| **Admin** | `admin@brightloop.com` | `Admin@Brightloop2026!` | Full system control, staff management (`/admin`) |
+| **Staff** | `sarah.chen@brightloop.com` | `Staff@Brightloop2026!` | Sales & day-to-day operations (`/staff`) |
+| **Staff** | `david.miller@brightloop.com` | `Staff@Brightloop2026!` | Billing & quotes operations (`/staff`) |
+| **Staff** | `elena.rostova@brightloop.com` | `Staff@Brightloop2026!` | Payments & account management (`/staff`) |
+| **Customer** | `alex@acmecorp.com` | `Customer@Brightloop2026!` | Acme Corporation portal (`/customer`) |
+| **Customer** | `priya@techflow.io` | `Customer@Brightloop2026!` | TechFlow Systems portal (`/customer`) |
+| **Customer** | `marcus@greenleaf.org` | `Customer@Brightloop2026!` | Greenleaf Retail portal (`/customer`) |
+| **Customer** | `chloe@designhub.co` | `Customer@Brightloop2026!` | DesignHub Studio portal (`/customer`) |
+| **Customer** | `liam@nordiclogistics.com` | `Customer@Brightloop2026!` | Nordic Logistics portal (`/customer`) |
 
 ---
 
@@ -52,7 +71,6 @@ git pull origin main
 
 # 2. Install dependencies
 pnpm install
-# or: npm install
 
 # 3. Configure environment variables
 # Copy .env.example to .env and configure your PostgreSQL database credentials
@@ -64,10 +82,13 @@ pnpm prisma:generate
 # 5. Run Database Migrations
 pnpm prisma:migrate
 
-# 6. Run Unit Tests (Verify everything passes)
+# 6. Seed Demo Users & Customers
+npx tsx prisma/seed.ts
+
+# 7. Run Unit Tests (Verify everything passes)
 pnpm test
 
-# 7. Start Development Server
+# 8. Start Development Server
 pnpm dev
 ```
 Open [http://localhost:3000](http://localhost:3000) to view the application.
@@ -75,9 +96,12 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 ---
 
 ## Team Collaboration & Git Rules (Zero Conflict Policy)
+- **Roles**:
+  - Kartik (Dev A): Backend, Foundation, Security, Billing Engine, Invoicing
+  - Vandan (Dev B): UI, Hallmark Design System, Feature Views, Customer Portal
 - **Branches**: 
-  - Vandan (Dev A - Backend/Foundation): `dev-a/hour-N`
-  - Prince (Dev B - UI/Features): `dev-b/hour-N`
+  - Kartik (Dev A): `dev-a/hour-N`
+  - Vandan (Dev B): `dev-b/hour-N`
 - **Ownership**: Only edit files assigned to your role in each hour. Cross-file requests must be marked with `// TODO(dev-x):`.
 - **Hourly Commits**:
   1. Commit your hour's work: `git commit -m "hour-N: <dev> - <short summary>"`

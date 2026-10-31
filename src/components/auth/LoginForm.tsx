@@ -48,6 +48,8 @@ export function LoginForm({ onSubmitAction }: LoginFormProps) {
           setErrorMessage(res.error || "Authentication failed. Please verify your credentials.");
         } else {
           setSuccessMessage("Sign in successful. Redirecting to workspace...");
+          const redirect = (res as { redirectUrl?: string }).redirectUrl || "/customer";
+          window.location.href = redirect;
         }
       } else {
         // Static simulation before server action is attached by Dev A

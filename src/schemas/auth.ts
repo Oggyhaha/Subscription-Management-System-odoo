@@ -54,3 +54,10 @@ export const resetPasswordSchema = z
 
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 
+export const createStaffSchema = z.object({
+  name: z.string().trim().min(2, "Staff name must be at least 2 characters"),
+  email: z.string().trim().email("Please enter a valid staff email address"),
+  password: passwordSchema.optional(), // if omitted, temporary secure password generated
+});
+
+export type CreateStaffInput = z.infer<typeof createStaffSchema>;
