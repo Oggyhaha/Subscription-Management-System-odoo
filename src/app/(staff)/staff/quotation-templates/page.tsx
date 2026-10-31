@@ -1,0 +1,28 @@
+import { quotationService } from "@/server/services/quotation";
+import { db } from "@/server/db";
+import { QuotationTemplatesView } from "@/components/quotations/QuotationTemplatesView";
+
+export const dynamic = "force-dynamic";
+
+export const metadata = {
+  title: "Quotation Templates — Staff",
+};
+
+export default async function StaffQuotationTemplatesPage() {
+  const [templates, plans, products, customers] = await Promise.all([
+    quotationService.listTemplates(),
+    db.plan.findMany({ where: { isActive: true }, select: { id: true, name: true } }),
+    db.product.findMany({ where: { isActive: true }, select: { id: true, name: true, salesPrice: true } }),
+    db.customerProfile.findMany({ select: { id: true, name: true, email: true }, orderBy: { name: "asc" } }),
+  ]);
+
+  return (
+    <QuotationTemplatesView
+      templates={templates as any}
+      plans={plans}
+      products={products}
+      customers={customers}
+      basePath="/staff"
+    />
+  );
+}
